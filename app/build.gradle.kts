@@ -18,6 +18,10 @@ android {
         version = release(37)
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.raihaan.bkksmkn6"
         minSdk = 26
