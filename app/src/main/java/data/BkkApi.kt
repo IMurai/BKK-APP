@@ -12,14 +12,18 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface BkkApi {
-    @GET("jobs")
-    suspend fun jobs(
-        @Query("page") page: Int = 1,
-        @Query("per_page") perPage: Int = 10,
+// @Query menambahkan parameter untuk endpoint endpoint dan @Path menambahkan parameter value seperti id
+interface BkkApi { // daftar endpoint
+    @GET("jobs") // request dengan endpoint "jobs"
+    suspend fun jobs( // mengambil response data
+        // suspend fun dengan cara asyncronus agar tidak menggangu program utama
+
+        // paramater untuk endpoint "jobs"
+        @Query("page") page: Int = 1, // nomor halaman
+        @Query("per_page") perPage: Int = 10, // jumlah konten perhalaman
         @Query("q") q: String? = null,
         @Query("type") type: String? = null
-    ): ListResponse<Lowongan>
+    ): ListResponse<Lowongan> // menyimpan response ke object Lowongan
 
     @GET("jobs/{id}")
     suspend fun job(@Path("id") id: Int): DetailResponse<Lowongan>
@@ -62,7 +66,7 @@ object ApiClient {
     val api: BkkApi = Retrofit.Builder()
         .baseUrl("https://bkk.smkn6solo.sch.id/api/v1/")
         .client(http)
-        .addCallAdapterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(BkkApi::class.java)
 }
